@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hirumi.visualnovelstrider.LanguageButton;
 import com.hirumi.visualnovelstrider.R;
 import com.hirumi.visualnovelstrider.databinding.ItemListBinding;
 import com.hirumi.visualnovelstrider.viewmodel.SearchViewModel;
@@ -35,7 +36,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
             layoutInflater = LayoutInflater.from(parent.getContext());
         }
         ItemListBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list, parent, false);
-        return new ViewHolder(itemListBinding);
+        return new ViewHolder(itemListBinding, parent);
     }
 
     @Override
@@ -50,15 +51,26 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ItemListBinding itemListBinding;
+        private final ItemListBinding itemListBinding;
 
-        public ViewHolder(@NonNull @NotNull ItemListBinding itemListBinding) {
+        private final ViewGroup viewGroup;
+
+        public ViewHolder(@NonNull @NotNull ItemListBinding itemListBinding, ViewGroup view) {
             super(itemListBinding.getRoot());
             this.itemListBinding = itemListBinding;
+
+            viewGroup = itemListBinding.getRoot().findViewById(R.id.buttonContainer);
         }
 
         public void bind(SearchViewModel viewModel) {
             this.itemListBinding.setViewmodel(viewModel);
+
+            for (int i = 0; i < viewModel.getLanguages().size(); i++) {
+                LanguageButton languageButton = new LanguageButton(context);
+                languageButton.setText(viewModel.getLanguages().get(i).toUpperCase());
+                viewGroup.addView(languageButton);
+            }
+
             itemListBinding.executePendingBindings();
         }
 

@@ -11,5 +11,4 @@ import dagger.Component;
 @Component(modules = NetworkModule.class)
 public interface ApplicationComponent {
     void inject(MainActivity mainActivity);
-    void inject(SearchViewModel searchViewModel);
 }

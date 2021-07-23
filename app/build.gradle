@@ -82,5 +82,9 @@ dependencies {
     //async-await
     implementation 'com.ea.async:ea-async:1.2.3'
 
+    //rxjava Socket
     implementation 'com.github.codeestX:RxSocketClient:v1.0.1'
+
+    //flexbox untuk button dynamic
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 }

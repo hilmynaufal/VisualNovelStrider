@@ -10,6 +10,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.hirumi.visualnovelstrider.model.dbstats.Item;
 import com.hirumi.visualnovelstrider.network.SocketService;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 //this viewmodel is not injected by dagger
@@ -17,27 +19,35 @@ public class SearchViewModel extends ViewModel {
 
     private String title = "";
     private String images_url = "";
+    private String released = "";
+    private Double rating = 0.0;
+
+    //TODO route branching tags
+    private boolean isKineticNovel = false;
+    private boolean hasMultipleEndings = false;
+    private boolean linearPlot = false;
+    private boolean moreThanSevenEndings = false;
+    private boolean brancingPlot = false;
+
+    private ArrayList<String> languages = new ArrayList<>();
 
     public SearchViewModel(Item item) {
         if (item != null) {
             this.title = item.getTitle();
-            if (item.getImageFlagging().sexualAvg + item.getImageFlagging().violenceAvg != 0) {
-                //TODO: nsfw image handling
-            } else {
-                this.images_url = item.getImage();
-            }
-        }
-    }
 
-    @Inject
-    public SearchViewModel() {
+            //TODO nsfw image handling
+            this.images_url = item.getImageFlagging().sexualAvg + item.getImageFlagging().violenceAvg != 0 ? "" : item.getImage();
+
+            this.rating = item.getRating();
+            this.released = item.getReleased();
+            this.languages = item.getLanguages();
+        }
     }
 
     @BindingAdapter({"imgUrl"})
     public static void loadimage(ImageView imageView, String images_url) {
         Glide.with(imageView.getContext())
                 .load(images_url)
-                .apply(RequestOptions.overrideOf(300))
                 .into(imageView);
     }
 
@@ -66,6 +76,11 @@ public class SearchViewModel extends ViewModel {
 //        return mutableLiveData;
 //    }
 
+//    public void getData() {
+//        socketService.sendMessage("get vn basic (id = 26414)");
+//    }
+
+
     public String getTitle() {
         return title;
     }
@@ -74,7 +89,27 @@ public class SearchViewModel extends ViewModel {
         this.title = title;
     }
 
-//    public void getData() {
-//        socketService.sendMessage("get vn basic (id = 26414)");
-//    }
+    public String getReleased() {
+        return released;
+    }
+
+    public void setReleased(String released) {
+        this.released = released;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public ArrayList<String> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(ArrayList<String> languages) {
+        this.languages = languages;
+    }
 }

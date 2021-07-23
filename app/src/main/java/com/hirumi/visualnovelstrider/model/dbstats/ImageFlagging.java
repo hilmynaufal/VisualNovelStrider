@@ -6,35 +6,35 @@ import com.google.gson.annotations.SerializedName;
 public class ImageFlagging {
     @SerializedName("sexual_avg")
     @Expose
-    public Integer sexualAvg;
+    public Double sexualAvg;
     @SerializedName("violence_avg")
     @Expose
-    public Integer violenceAvg;
+    public Double violenceAvg;
     @SerializedName("votecount")
     @Expose
-    public Integer votecount;
+    public Double votecount;
 
-    public Integer getSexualAvg() {
+    public Double getSexualAvg() {
         return sexualAvg;
     }
 
-    public void setSexualAvg(Integer sexualAvg) {
+    public void setSexualAvg(Double sexualAvg) {
         this.sexualAvg = sexualAvg;
     }
 
-    public Integer getViolenceAvg() {
+    public Double getViolenceAvg() {
         return violenceAvg;
     }
 
-    public void setViolenceAvg(Integer violenceAvg) {
+    public void setViolenceAvg(Double violenceAvg) {
         this.violenceAvg = violenceAvg;
     }
 
-    public Integer getVotecount() {
+    public Double getVotecount() {
         return votecount;
     }
 
-    public void setVotecount(Integer votecount) {
+    public void setVotecount(Double votecount) {
         this.votecount = votecount;
     }
 }

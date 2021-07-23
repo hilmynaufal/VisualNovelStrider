@@ -1,7 +1,8 @@
 package com.hirumi.visualnovelstrider;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -13,26 +14,22 @@ import com.hirumi.visualnovelstrider.adapter.SearchListAdapter;
 import com.hirumi.visualnovelstrider.repository.VnRepository;
 import com.hirumi.visualnovelstrider.viewmodel.SearchViewModel;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.inject.Inject;
-
-import moe.codeest.rxsocketclient.SocketSubscriber;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    @Inject
-    public SearchViewModel searchViewModel;
+
     @Inject
     public VnRepository vnRepository;
     private RecyclerView recyclerView;
     private SearchListAdapter searchListAdapter;
     private LinearLayoutManager linearLayoutManager;
     private FloatingActionButton fab;
+    private EditText searchVN;
+    private Button searchVNClear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +58,16 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        }, throwable -> Log.e("As", throwable.toString()));
 
-
-
+        searchVN = findViewById(R.id.searchVN);
+        searchVNClear = findViewById(R.id.searchVNClear);
         fab = findViewById(R.id.fab);
-
 
         recyclerView = findViewById(R.id.rvSearch);
 
-
-
         fab.setOnClickListener(view -> {
-            vnRepository.getAsw().observe(this, new Observer<ArrayList<SearchViewModel>>() {
+            String title = searchVN.getText().toString();
+            searchVN.clearFocus();
+            vnRepository.getAsw(title).observe(this, new Observer<ArrayList<SearchViewModel>>() {
                 @Override
                 public void onChanged(ArrayList<SearchViewModel> searchViewModels) {
                     searchListAdapter = new SearchListAdapter(searchViewModels, MainActivity.this);
@@ -82,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
             });
         });
 
+        searchVNClear.setOnClickListener(view -> {
+            searchVN.setText("");
+            searchVN.requestFocusFromTouch();
+        });
 
 
 //        searchViewModel.getMutableLiveData().observe(this, viewModel -> {

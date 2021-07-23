@@ -23,7 +23,6 @@ public class VnRepository {
     public SocketService socketService;
 
     private Result result;
-    private String asw = "asw";
     private ArrayList<SearchViewModel> arrayList;
     private MutableLiveData<ArrayList<SearchViewModel>> mutableLiveData = new MutableLiveData<>();
 
@@ -39,9 +38,9 @@ public class VnRepository {
 //        return mutableLiveData;
 //    }
 
-    public MutableLiveData<ArrayList<SearchViewModel>> getAsw() {
+    public MutableLiveData<ArrayList<SearchViewModel>> getAsw(String title) {
         arrayList = new ArrayList<>();
-        socketService.sendMessage("get vn basic,details (search~\"gyakuten saiban\")", new SocketService.Callback() {
+        socketService.sendMessage("get vn basic,details,stats,tags (search~\"" + title +"\")", new SocketService.Callback() {
             @Override
             public void onComplete(String s) {
                 Gson gson = new Gson();
