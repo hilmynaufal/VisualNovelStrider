@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hirumi.visualnovelstrider.LanguageButton;
+import com.hirumi.visualnovelstrider.tools.LanguageButton;
 import com.hirumi.visualnovelstrider.R;
 import com.hirumi.visualnovelstrider.databinding.ItemListBinding;
 import com.hirumi.visualnovelstrider.viewmodel.SearchViewModel;
@@ -36,7 +36,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
             layoutInflater = LayoutInflater.from(parent.getContext());
         }
         ItemListBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list, parent, false);
-        return new ViewHolder(itemListBinding, parent);
+        return new ViewHolder(itemListBinding);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
 
         private final ViewGroup viewGroup;
 
-        public ViewHolder(@NonNull @NotNull ItemListBinding itemListBinding, ViewGroup view) {
+        public ViewHolder(@NonNull @NotNull ItemListBinding itemListBinding) {
             super(itemListBinding.getRoot());
             this.itemListBinding = itemListBinding;
 

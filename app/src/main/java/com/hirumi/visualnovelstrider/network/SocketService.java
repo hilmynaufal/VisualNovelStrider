@@ -18,7 +18,6 @@ import java.net.SocketAddress;
 public class SocketService extends AsyncTask<Void, String, Boolean> {
 
     private Socket socket;
-    private final String stringa = "unych";
     private BufferedReader input;
     private PrintWriter output;
 

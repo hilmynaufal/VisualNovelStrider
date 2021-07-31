@@ -1,4 +1,4 @@
-package com.hirumi.visualnovelstrider;
+package com.hirumi.visualnovelstrider.tools;
 
 import android.content.Context;
 import android.util.TypedValue;
@@ -7,6 +7,8 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
+
+import com.hirumi.visualnovelstrider.R;
 
 import org.jetbrains.annotations.NotNull;
 

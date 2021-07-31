@@ -1,20 +1,18 @@
 package com.hirumi.visualnovelstrider;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hirumi.visualnovelstrider.adapter.SearchListAdapter;
 import com.hirumi.visualnovelstrider.repository.VnRepository;
-import com.hirumi.visualnovelstrider.viewmodel.SearchViewModel;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -29,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private FloatingActionButton fab;
     private EditText searchVN;
-    private Button searchVNClear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,28 +56,36 @@ public class MainActivity extends AppCompatActivity {
 //        }, throwable -> Log.e("As", throwable.toString()));
 
         searchVN = findViewById(R.id.searchVN);
-        searchVNClear = findViewById(R.id.searchVNClear);
+        Button searchVNClear = findViewById(R.id.searchVNClear);
         fab = findViewById(R.id.fab);
 
         recyclerView = findViewById(R.id.rvSearch);
 
         fab.setOnClickListener(view -> {
+            //get query
             String title = searchVN.getText().toString();
+
+            //clear focus & hide keyboard
             searchVN.clearFocus();
-            vnRepository.getAsw(title).observe(this, new Observer<ArrayList<SearchViewModel>>() {
-                @Override
-                public void onChanged(ArrayList<SearchViewModel> searchViewModels) {
-                    searchListAdapter = new SearchListAdapter(searchViewModels, MainActivity.this);
-                    linearLayoutManager = new LinearLayoutManager(MainActivity.this);
-                    recyclerView.setLayoutManager(linearLayoutManager);
-                    recyclerView.setAdapter(searchListAdapter);
-                }
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(searchVN.getApplicationWindowToken(), 0);
+            //end
+
+            //get data & set data
+            vnRepository.getAsw(title).observe(this, searchViewModels -> {
+                searchListAdapter = new SearchListAdapter(searchViewModels, MainActivity.this);
+                linearLayoutManager = new LinearLayoutManager(MainActivity.this);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setAdapter(searchListAdapter);
             });
         });
 
         searchVNClear.setOnClickListener(view -> {
+            //clear text & gain focus
             searchVN.setText("");
-            searchVN.requestFocusFromTouch();
+            searchVN.requestFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(searchVN, InputMethodManager.SHOW_IMPLICIT);
         });
 
 
